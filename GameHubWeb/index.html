@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Login</title>
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --accent-color: #fd79a8;
+            --background-color: #f5f6fa;
+            --card-color: #ffffff;
+            --text-color: #2d3436;
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .background-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background-color: rgba(108, 92, 231, 0.2);
+            top: -150px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background-color: rgba(253, 121, 168, 0.2);
+            bottom: -100px;
+            right: -50px;
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            background-color: rgba(162, 155, 254, 0.2);
+            bottom: 100px;
+            left: 80px;
+        }
+
+        .container {
+            width: 400px;
+            background-color: var(--card-color);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #5549c9;
+        }
+
+        .switch-form {
+            margin-top: 20px;
+            color: var(--text-color);
+        }
+
+        .switch-form a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .success-message {
+            color: #2ecc71;
+            margin-top: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #loginForm, #registerForm {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="logo">Game<span>Hub</span></div>
+        
+        <div id="loginForm">
+            <h1>Login</h1>
+            <div class="form-group">
+                <label for="loginUsername">Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            <button onclick="login()">Login</button>
+            <div class="switch-form">
+                Don't have an account? <a onclick="showRegisterForm()">Register</a>
+            </div>
+            <div id="loginError" class="error-message"></div>
+        </div>
+
+        <div id="registerForm" style="display: none;">
+            <h1>Register</h1>
+            <div class="form-group">
+                <label for="registerUsername">Username</label>
+                <input type="text" id="registerUsername" placeholder="Choose a username">
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Password</label>
+                <input type="password" id="registerPassword" placeholder="Choose a password">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password">
+            </div>
+            <button onclick="register()">Register</button>
+            <div class="switch-form">
+                Already have an account? <a onclick="showLoginForm()">Login</a>
+            </div>
+            <div id="registerError" class="error-message"></div>
+            <div id="registerSuccess" class="success-message"></div>
+        </div>
+    </div>
+
+    <script>
+        // Show/hide form functions
+        function showLoginForm() {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        function showRegisterForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        // Login function
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorElement = document.getElementById('loginError');
+            
+            if (!username || !password) {
+                errorElement.textContent = 'Please enter both username and password';
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('gameHubUsers')) || [];
+            
+            // Find user
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                // Set current user in localStorage
+                localStorage.setItem('gameHubCurrentUser', username);
+                
+                // Redirect to home page
+                window.location.href = 'Home.html';
+            } else {
+                errorElement.textContent = 'Invalid username or password';
+                errorElement.style.display = 'block';
+            }
+        }
+
+        // Register function
+        function register() {
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorElement = document.getElementById('registerError');
+            const successElement = document.getElementById('registerSuccess');
+            
+            // Reset messages
+            errorElement.style.display = 'none';
+            successElement.style.display = 'none';
+            
+            // Validation
+            if (!username || !password || !confirmPassword) {
+                errorElement.textContent = 'Please fill out all fields';
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                errorElement.textContent = 'Passwords do not match';
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            if (password.length < 6) {
+                errorElement.textContent = 'Password must be at least 6 characters';
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            // Get existing users
+            const users = JSON.parse(localStorage.getItem('gameHubUsers')) || [];
+            
+            // Check if username already exists
+            if (users.some(user => user.username === username)) {
+                errorElement.textContent = 'Username already exists';
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            // Add new user
+            users.push({
+                username,
+                password,
+                scores: {
+                    rps: 0,
+                    xox: 0,
+                    memory: 0,
+                    numberGuess: 0
+                }
+            });
+            
+            // Save to localStorage
+            localStorage.setItem('gameHubUsers', JSON.stringify(users));
+            
+            // Show success message
+            successElement.textContent = 'Registration successful! You can now login.';
+            successElement.style.display = 'block';
+            
+            // Clear form
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            // After 2 seconds, switch to login form
+            setTimeout(() => {
+                showLoginForm();
+            }, 2000);
+        }
+
+        // Check if user is already logged in
+        window.onload = function() {
+            if (localStorage.getItem('gameHubCurrentUser')) {
+                window.location.href = 'home.html';
+            }
+        }
+
+        // Handle Enter key for login
+        document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+
+        // Handle Enter key for register
+        document.getElementById('confirmPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                register();
+            }
+        });
+    </script>
+</body>
+</html>
